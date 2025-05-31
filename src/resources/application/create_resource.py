@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from resources.domain.models import Resource
 from resources.domain.repositories import ResourcesRepository
+from resources.domain.value_objects import ResourceUrl
 
 
 @dataclass
@@ -12,5 +13,6 @@ class CreateResource:
         self._resource_repository = resource_repository
 
     def execute(self, command: CreateResourceCommand) -> None:
-        resource = Resource.create(resource_url=command.resource_url)
+        resource_url = ResourceUrl(value=command.resource_url)
+        resource = Resource.create(resource_url=resource_url)
         self._resource_repository.save(resource)
