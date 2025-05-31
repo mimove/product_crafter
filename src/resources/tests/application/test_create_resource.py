@@ -1,4 +1,4 @@
-from resources.application.create_resource import CreateResource
+from resources.application.create_resource import CreateResource, CreateResourceCommand
 from resources.domain.models import Resource
 from resources.domain.repositories import ResourcesRepository
 
@@ -17,8 +17,11 @@ class TestCreateResource:
     def test_creates_resource(self) -> None:
         resource_repository = FakeResourceRepository()
 
-        CreateResource(resource_repository).execute()
-
-        assert len(resource_repository.all()) == 1
+        CreateResource(resource_repository).execute(
+            CreateResourceCommand(resource_url="resource-url-example")
+        )
+        resources = resource_repository.all()
+        assert len(resources) == 1
+        assert resources[0].url() == "resource-url-example"
 
     
