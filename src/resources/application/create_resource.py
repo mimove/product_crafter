@@ -12,4 +12,5 @@ class CreateResource:
         self._resource_repository = resource_repository
 
     def execute(self, command: CreateResourceCommand) -> None:
-        self._resource_repository.save(Resource())
+        resource = Resource.create(resource_url=command.resource_url)
+        self._resource_repository.save(resource)
